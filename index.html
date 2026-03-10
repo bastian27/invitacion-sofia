@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis 15 Años - Sofía Cardona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --plateado:#e0e0e0;
+      --brillo:#ffffff;
+      --fondo-noche:#050508;
+      --texto-secundario:#d9d9d9;
+      --borde-suave:rgba(224,224,224,.35);
+      --card-bg:rgba(255,255,255,.04);
+      --card-shadow:0 0 40px rgba(0,0,0,.45);
+      --max-card:560px;
+      --azul-overlay:rgba(6, 25, 49, 0.78);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      overflow-x:hidden;
+      font-family:'Montserrat',sans-serif;
+      color:#fff;
+      background-image:url('https://lh3.googleusercontent.com/u/0/d/1qndVNUMbUwGV8ChV6-G9JT2dzIrehPgi');
+      background-color:var(--fondo-noche);
+      background-position:center center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      background-attachment:fixed;
+    }
+
+    a{ color:inherit; }
+
+    /* PORTADA */
+    .intro-screen{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:
+        linear-gradient(to bottom, rgba(2,10,22,.86), rgba(3,8,18,.95)),
+        url('https://lh3.googleusercontent.com/u/0/d/1qndVNUMbUwGV8ChV6-G9JT2dzIrehPgi') center/cover no-repeat;
+      transition:opacity .9s ease, visibility .9s ease;
+    }
+
+    .intro-screen.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    .intro-inner{
+      width:min(100%, 500px);
+      text-align:center;
+      padding:30px 20px;
+    }
+
+    .statue-button{
+      appearance:none;
+      border:none;
+      background:transparent;
+      color:white;
+      cursor:pointer;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      padding:0;
+    }
+
+    .statue-wrap{
+      position:relative;
+      width:min(68vw, 250px);
+      aspect-ratio:1 / 1.5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      filter:drop-shadow(0 0 18px rgba(255,255,255,.2));
+      animation:floatGlow 3.2s ease-in-out infinite;
+    }
+
+    .statue-wrap::before{
+      content:"";
+      position:absolute;
+      width:70%;
+      height:70%;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,.16), transparent 65%);
+      filter:blur(8px);
+      z-index:0;
+    }
+/*Estrellas en toda la pantalla*/
+.stars-layer{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+
+.star{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:white;
+  border-radius:50%;
+  opacity:0.2;
+  box-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 12px rgba(255,255,255,.6);
+  animation:twinkle 2.5s ease-in-out infinite;
+}
+
+.star::before,
+.star::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+}
+
+.star::before{
+  width:1px;
+  height:12px;
+}
+
+.star::after{
+  width:12px;
+  height:1px;
+}
+
+@keyframes twinkle{
+  0%,100%{
+    opacity:0.2;
+  }
+  50%{
+    opacity:1;
+  }
+}
+/*fin estrellas*/
+    .statue-svg{
+      position:relative;
+      z-index:1;
+      width:100%;
+      height:100%;
+    }
+
+    .statue-svg path{
+      fill:url(#statueGradient);
+      stroke:rgba(255,255,255,.55);
+      stroke-width:1.2;
+    }
+
+    .intro-title{
+      margin:0;
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(2.5rem, 8vw, 4rem);
+      line-height:1.15;
+      color:#f8f8f8;
+      text-shadow:0 0 14px rgba(255,255,255,.2);
+    }
+
+    .intro-text{
+      margin:0;
+      font-size:clamp(.92rem, 2.8vw, 1rem);
+      line-height:1.7;
+      color:#e8e8e8;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .tap-hint{
+      margin-top:8px;
+      font-size:clamp(.82rem, 2.4vw, .95rem);
+      color:#cfd9df;
+      animation:pulse 1.8s infinite;
+    }
+
+    @keyframes floatGlow{
+      0%,100%{
+        transform:translateY(0);
+        filter:drop-shadow(0 0 18px rgba(255,255,255,.16));
+      }
+      50%{
+        transform:translateY(-8px);
+        filter:drop-shadow(0 0 24px rgba(255,255,255,.28));
+      }
+    }
+
+    @keyframes pulse{
+      0%,100%{ opacity:.6; }
+      50%{ opacity:1; }
+    }
+/*animacion entrada*/
+.intro-screen{
+  opacity:1;
+  visibility:visible;
+  overflow:hidden;
+  transition:opacity .9s ease, visibility .9s ease;
+}
+
+.intro-screen.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.intro-inner{
+  transition:transform .8s ease, opacity .8s ease;
+}
+
+.intro-screen.open .intro-inner{
+  transform:scale(1.08);
+  opacity:0;
+}
+
+.main-content{
+  opacity:0;
+  transform:translateY(28px) scale(.97);
+  transition:opacity 1s ease, transform 1s ease;
+}
+
+.main-content.visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+/*fin animacion entrada*/
+    /* Contenido de la invitación */
+    .main-content{
+      opacity:0;
+      transform:translateY(18px);
+      transition:opacity .9s ease, transform .9s ease;
+    }
+
+    .main-content.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    #star-container{
+      position:fixed;
+      inset:0 0 auto 0;
+      width:100%;
+      height:50vh;
+      z-index:0;
+      pointer-events:none;
+      background:transparent;
+      mask-image:linear-gradient(to bottom, black 70%, transparent 100%);
+      -webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%);
+    }
+
+    .star{
+      position:absolute;
+      background:white;
+      border-radius:50%;
+      opacity:0;
+      animation:twinkle 2.5s ease-in-out infinite;
+    }
+
+    @keyframes twinkle{
+      0%,100%{
+        opacity:0.2;
+      }
+      50%{
+        opacity:1;
+      }
+    }
+
+    .page{
+      position:relative;
+      z-index:2;
+      width:100%;
+      padding:24px 16px 40px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .invitation-card{
+      width:min(100%, var(--max-card));
+      margin:0 auto;
+      padding:clamp(22px, 4vw, 40px) clamp(16px, 4vw, 28px);
+      background:var(--card-bg);
+      border:1px solid var(--borde-suave);
+      border-radius:20px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      text-align:center;
+      box-shadow:var(--card-shadow);
+    }
+
+    .family-text{
+      margin:0;
+      font-size:clamp(.9rem, 2.5vw, 1rem);
+      line-height:1.7;
+      color:#f3f3f3;
+    }
+
+    h1{
+      margin:14px 0 8px;
+      padding-top:8px;
+      font-family:'Great Vibes',cursive;
+      font-size:clamp(3rem, 12vw, 4.8rem);
+      line-height:1.2;
+      background:linear-gradient(to bottom, #cfd9df 0%, #e2ebf0 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 5px rgba(255,255,255,.45));
+    }
+
+    .apellido{
+      margin:0 0 24px;
+      letter-spacing:4px;
+      font-size:clamp(.75rem, 2.4vw, .95rem);
+    }
+
+    .info-block{
+      margin:24px 0;
+      line-height:1.8;
+      font-size:clamp(.92rem, 2.5vw, 1rem);
+    }
+
+    .highlight{
+      color:var(--plateado);
+      font-weight:600;
+      font-size:clamp(1rem, 3vw, 1.15rem);
+    }
+
+    .map-link{
+      display:inline-block;
+      margin-top:8px;
+      color:#add8e6;
+      text-decoration:none;
+      font-size:clamp(.82rem, 2.3vw, .9rem);
+      word-break:break-word;
+    }
+
+    .map-link:hover{
+      text-decoration:underline;
+    }
+
+    .guest-box{
+      margin:22px auto;
+      padding:10px 16px;
+      border:1px solid var(--plateado);
+      width:fit-content;
+      max-width:100%;
+      border-radius:10px;
+      font-size:clamp(.9rem, 2.5vw, 1rem);
+    }
+
+    #numero-invitados{
+      display:inline-block;
+      min-width:42px;
+      text-align:center;
+      border-bottom:1px solid #fff;
+      padding:0 10px;
+    }
+
+    .confirm-text{
+      margin:0 auto 18px;
+      max-width:460px;
+      font-size:clamp(.9rem, 2.45vw, .98rem);
+      line-height:1.7;
+      color:#f3f3f3;
+    }
+
+    .btn-confirm{
+      display:inline-block;
+      margin-top:8px;
+      padding:14px 28px;
+      background:#fff;
+      color:#000;
+      text-decoration:none;
+      border-radius:999px;
+      font-weight:700;
+      font-size:.95rem;
+      transition:.3s ease;
+      box-shadow:0 0 15px rgba(255,255,255,.25);
+    }
+
+    .btn-confirm:hover{
+      transform:scale(1.04);
+      background:var(--plateado);
+      box-shadow:0 0 25px rgba(255,255,255,.45);
+    }
+
+    .section-divider{
+      border:none;
+      height:1px;
+      background:linear-gradient(to right, transparent, rgba(255,255,255,.5), transparent);
+      margin:28px 0;
+    }
+
+    h2{
+      margin:0 0 12px;
+      font-size:clamp(1.2rem, 4vw, 1.8rem);
+      line-height:1.3;
+      font-weight:600;
+      color:#fff;
+    }
+
+    .subtitle{
+      margin:0 auto 30px;
+      max-width:420px;
+      font-size:clamp(.82rem, 2.3vw, .92rem);
+      line-height:1.5;
+      color:var(--texto-secundario);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:20px 14px;
+      width:100%;
+      align-items:start;
+    }
+
+    .item{
+      text-align:center;
+    }
+
+    .circle{
+      width:clamp(72px, 18vw, 92px);
+      aspect-ratio:1 / 1;
+      border-radius:50%;
+      margin:0 auto;
+      border:3px solid #999;
+      box-shadow:0 0 10px rgba(255,255,255,.08) inset;
+    }
+
+    .label{
+      margin-top:10px;
+      font-size:clamp(.74rem, 2.15vw, .88rem);
+      line-height:1.35;
+      color:#f5f5f5;
+    }
+
+    .footer{
+      margin-top:28px;
+      font-size:clamp(.78rem, 2.2vw, .9rem);
+      line-height:1.6;
+      color:var(--texto-secundario);
+    }
+
+    .footer p{
+      margin:8px 0;
+    }
+
+    @media (max-width: 768px){
+      body{
+        background-position:center center;
+        background-attachment:scroll;
+      }
+
+      .page{
+        padding:18px 12px 28px;
+      }
+
+      .grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:18px 12px;
+      }
+    }
+
+    @media (max-width: 480px){
+      .invitation-card{
+        border-radius:16px;
+      }
+
+      .apellido{
+        letter-spacing:2px;
+      }
+
+      .grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+
+      .btn-confirm{
+        width:100%;
+        max-width:280px;
+      }
+
+      h1{
+        font-size:clamp(2.8rem, 11vw, 3.5rem);
+        line-height:1.25;
+        padding-top:10px;
+      }
+    }
+
+    @media (max-width: 360px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .circle{
+        width:84px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Portada -->
+  <section class="intro-screen" id="introScreen">
+    <div class="intro-inner">
+    <div class="stars-layer" id="starsLayer"></div>
+      <button class="statue-button" id="openInvitationBtn" aria-label="Abrir invitación">
+        <div class="statue-wrap">
+          <img 
+            class="statue-svg"
+            src="raw.githubusercontent.com/bastian27/invitacion-sofia/blob/main/estatua.png" alt="Estatua de la Libertad"
+          />
+        </div>
+
+        <h2 class="intro-title">Sofía</h2>
+        <p class="intro-text">Toca para abrir la invitación</p>
+        <div class="tap-hint">✦ Abrir ✦</div>
+      </button>
+    </div>
+  </section>
+
+  <div id="star-container"></div>
+
+  <div class="main-content" id="mainContent">
+    <main class="page">
+      <div class="invitation-card">
+        <p class="family-text">
+          Sebastián Cano &amp; Laura Ramírez<br>
+          Te invitan a celebrar los Quince Años de
+        </p>
+
+        <h1>Sofía</h1>
+        <p class="apellido">CARDONA RAMÍREZ</p>
+
+        <div class="info-block">
+          <span class="highlight">25 de Abril, 2026</span><br>
+          <span>7:00 PM</span><br><br>
+
+          <strong>Lugar:</strong><br>
+          Cl 30AA #81a-42, Medellín, Belén<br>
+
+          <a
+            href="https://www.google.com/maps/dir//SALON+DE+EVENTOS+CASTILLO+REAL+MOLINOS,+Cl+30AA+%2381a-42,+Medell%C3%ADn,+Bel%C3%A9n,+Medell%C3%ADn,+Antioquia/@6.2599091,-75.6091692,4843m/data=!3m2!1e3!4b1!4m8!4m7!1m0!1m5!1m1!1s0x8e4429d009dd4de5:0x15e40bb2e3dd00ff!2m2!1d-75.6033141!2d6.2325407?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            class="map-link"
+          >
+            📍 Ver ubicación en Google Maps
+          </a>
+        </div>
+
+        <div class="guest-box">
+          Invitados:
+          <span id="numero-invitados">00</span>
+        </div>
+
+        <p class="confirm-text">
+          Agradecemos confirmar tu asistencia antes del <strong>01 de abril</strong>.
+          El acceso al evento será únicamente mediante <strong>lista de invitados</strong>,
+          por lo que solo podrán ingresar las personas previamente confirmadas.
+        </p>
+
+        <a href="https://forms.gle/efb7tGSDt33DY4jx9https://forms.gle/efb7tGSDt33DY4jx9" class="btn-confirm">CONFIRMAR</a>
+
+        <hr class="section-divider">
+
+        <h2>CÓDIGO DE VESTIMENTA</h2>
+
+        <p></p>
+
+        <img src="raw.githubusercontent.com/bastian27/invitacion-sofia/blob/main/dress.png" alt="Código de vestimenta" style="width:100%; max-width:400px; border-radius:12px; box-shadow:0 0 20px rgba(255,255,255,.25); margin:0 auto; display:block;">
+
+        <hr class="section-divider">
+
+        <h2>RESERVADO PARA<br>FAMILIA Y QUINCEAÑERA</h2>
+
+        <div class="subtitle">
+          Para esta ocasión tan especial, hemos seleccionado una paleta de colores elegante y sofisticada. Te invitamos a elegir tu atuendo dentro de esta gama para crear un ambiente armonioso y memorable.
+        </div>
+        <div class="subtitle">
+          PALETA DE COLORES RESERVADOS PARA LA<br>
+          QUINCEAÑERA Y LA FAMILIA DIRECTA
+        </div>
+
+        <div class="grid">
+          <div class="item">
+            <div class="circle" style="background:#cfe8e5;"></div>
+            <div class="label">Verde Agua Súper Claro</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#e6e6e6;"></div>
+            <div class="label">Plateado Brillante</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#ffffff;"></div>
+            <div class="label">Blanco Puro</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#1f3560;"></div>
+            <div class="label">Midnight Blue</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#7d8a94;"></div>
+            <div class="label">Slate Gray</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#d8a5a5;"></div>
+            <div class="label">Rosa Palo Metálico</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#d9c3a3;"></div>
+            <div class="label">Champagne Gold</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#6e0f1f;"></div>
+            <div class="label">Vinotinto</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#a6767c;"></div>
+            <div class="label">Rosa Antiguo / Mauve</div>
+          </div>
+
+          <div class="item">
+            <div class="circle" style="background:#d6d6d6;"></div>
+            <div class="label">Gris Claro</div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p><b>*Por favor, evita estos colores. Están reservados exclusivamente para la familia y la quinceañera.*</b></p>
+          <p><b>**Agradecemos tu cooperación.**</b></p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function createStars() {
+      const container = document.getElementById('star-container');
+      const starCount = window.innerWidth < 480 ? 70 : 120;
+      container.innerHTML = '';
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+
+        const size = (Math.random() * 2.5 + 1) + 'px';
+        star.style.width = size;
+        star.style.height = size;
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+
+        const duration = (Math.random() * 5 + 5) + 's';
+        const delay = (Math.random() * 10) + 's';
+
+        star.style.animationDuration = duration;
+        star.style.animationDelay = delay;
+
+        container.appendChild(star);
+      }
+    }
+
+    function obtenerInvitados() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const cantidad = urlParams.get('n');
+      const elemento = document.getElementById('numero-invitados');
+      elemento.innerText = cantidad ? cantidad : '02';
+    }
+
+    function abrirInvitacion() {
+      const intro = document.getElementById('introScreen');
+      const main = document.getElementById('mainContent');
+
+      intro.classList.add('hidden');
+
+      setTimeout(() => {
+        main.classList.add('visible');
+      }, 250);
+    }
+
+
+function createStars() {
+
+  const container = document.getElementById("starsLayer");
+  container.innerHTML = "";
+
+  const starCount = window.innerWidth < 480 ? 80 : 150;
+
+  for(let i=0;i<starCount;i++){
+
+    const star = document.createElement("span");
+    star.className = "star";
+
+    star.style.left = Math.random()*100 + "%";
+    star.style.top = Math.random()*100 + "%";
+
+    const size = Math.random()*3 + 2;
+    star.style.width = size+"px";
+    star.style.height = size+"px";
+
+    const delay = Math.random()*3;
+    const duration = Math.random()*2 + 2;
+
+    star.style.animationDelay = delay+"s";
+    star.style.animationDuration = duration+"s";
+
+    container.appendChild(star);
+  }
+}
+
+function abrirInvitacion() {
+  const intro = document.getElementById('introScreen');
+  const main = document.getElementById('mainContent');
+
+  intro.classList.add('open');
+
+  setTimeout(() => {
+    intro.classList.add('hidden');
+    main.classList.add('visible');
+  }, 700);
+}
+
+window.addEventListener("DOMContentLoaded",createStars);
+window.addEventListener("resize",createStars);
+
+
+    window.addEventListener('DOMContentLoaded', () => {
+      createStars();
+      obtenerInvitados();
+
+      document.getElementById('openInvitationBtn').addEventListener('click', abrirInvitacion);
+    });
+
+    window.addEventListener('resize', () => {
+      createStars();
+    });
+  </script>
+</body>
+</html>
