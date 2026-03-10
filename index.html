@@ -53,7 +53,6 @@
       justify-content:center;
       padding:24px;
       background:
-        linear-gradient(to bottom, rgba(2,10,22,.86), rgba(3,8,18,.95)),
         url('https://lh3.googleusercontent.com/u/0/d/1qndVNUMbUwGV8ChV6-G9JT2dzIrehPgi') center/cover no-repeat;
       transition:opacity .9s ease, visibility .9s ease;
     }
@@ -211,6 +210,20 @@
       0%,100%{ opacity:.6; }
       50%{ opacity:1; }
     }
+
+    #music-btn{
+      position:fixed;
+      top:20px;
+      right:20px;
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.3);
+      backdrop-filter:blur(6px);
+      color:white;
+      padding:10px 16px;
+      border-radius:30px;
+      cursor:pointer;
+      font-size:14px;
+    }
 /*animacion entrada*/
 .intro-screen{
   opacity:1;
@@ -308,18 +321,31 @@
       box-shadow:var(--card-shadow);
     }
 
+    .welcome-message{
+       margin:14px 0 8px;
+      padding-top:8px;
+      font-family:'Great Vibes',cursive;
+      font-size: 62px;
+      line-height:1.2;
+      background:linear-gradient(to bottom, #cfd9df 0%, #e2ebf0 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 5px rgba(255,255,255,.45));
+    }
+
     .family-text{
       margin:0;
-      font-size:clamp(.9rem, 2.5vw, 1rem);
+      font-size: 22px;
       line-height:1.7;
       color:#f3f3f3;
     }
 
-    h1{
+    .namesof {
       margin:14px 0 8px;
       padding-top:8px;
       font-family:'Great Vibes',cursive;
-      font-size:clamp(3rem, 12vw, 4.8rem);
+      font-size: 120px;
       line-height:1.2;
       background:linear-gradient(to bottom, #cfd9df 0%, #e2ebf0 100%);
       -webkit-background-clip:text;
@@ -331,7 +357,7 @@
     .apellido{
       margin:0 0 24px;
       letter-spacing:4px;
-      font-size:clamp(.75rem, 2.4vw, .95rem);
+      font-size: 30px;
     }
 
     .info-block{
@@ -436,6 +462,38 @@
       align-items:start;
     }
 
+    .countdown{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
+
+    .time-box{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:10px;
+      padding:12px 16px;
+      text-align:center;
+      min-width:70px;
+      backdrop-filter:blur(6px);
+    }
+
+    .time-box span{
+      font-size:1.6rem;
+      font-weight:600;
+      color:#fff;
+    }
+
+    .time-box p{
+      margin:0;
+      font-size:0.75rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:#ccc;
+    }
+
     .item{
       text-align:center;
     }
@@ -520,7 +578,11 @@
   </style>
 </head>
 <body>
+<button id="music-btn">🎵 Música</button>
 
+<audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
   <!-- Portada -->
   <section class="intro-screen" id="introScreen">
     <div class="intro-inner">
@@ -529,7 +591,7 @@
         <div class="statue-wrap">
           <img 
             class="statue-svg"
-            src="estatua.png" alt="Estatua de la Libertad"
+            src="./estatua.png" alt="Estatua de la Libertad"
           />
         </div>
 
@@ -545,19 +607,46 @@
   <div class="main-content" id="mainContent">
     <main class="page">
       <div class="invitation-card">
+        <h1 class="welcome-message">Hay momentos en la vida que marcan el inicio de una nueva etapa... y este es uno de ellos.</h1>
+        <hr>
+        <h2><strong>Sebastián Cano</strong> &amp; <strong>Laura Ramírez</strong><br></h2>
         <p class="family-text">
-          Sebastián Cano &amp; Laura Ramírez<br>
           Te invitan a celebrar los Quince Años de
         </p>
 
-        <h1>Sofía</h1>
+        <h1 class="namesof">Sofía</h1>
         <p class="apellido">CARDONA RAMÍREZ</p>
 
         <div class="info-block">
           <span class="highlight">25 de Abril, 2026</span><br>
           <span>7:00 PM</span><br><br>
 
+          <span class="highlight">Faltan:<br></span>
+          <div class="countdown">
+            <div class="time-box">
+              <span id="dias">00</span>
+              <p>Días</p>
+            </div>
+
+            <div class="time-box">
+              <span id="horas">00</span>
+              <p>Horas</p>
+            </div>
+
+            <div class="time-box">
+              <span id="minutos">00</span>
+              <p>Min</p>
+            </div>
+
+            <div class="time-box">
+              <span id="segundos">00</span>
+              <p>Seg</p>
+            </div>
+          </div>
+          <br>
+          <hr>
           <strong>Lugar:</strong><br>
+          Salón de Eventos Castillo Real Molinos<br>
           Cl 30AA #81a-42, Medellín, Belén<br>
 
           <a
@@ -580,7 +669,7 @@
           por lo que solo podrán ingresar las personas previamente confirmadas.
         </p>
 
-        <a href="https://forms.gle/efb7tGSDt33DY4jx9https://forms.gle/efb7tGSDt33DY4jx9" class="btn-confirm">CONFIRMAR</a>
+        <a href="https://forms.gle/efb7tGSDt33DY4jx9" class="btn-confirm">CONFIRMAR</a>
 
         <hr class="section-divider">
 
@@ -588,7 +677,7 @@
 
         <p></p>
 
-        <img src="dress.png" alt="Código de vestimenta" style="width:100%; max-width:400px; border-radius:12px; box-shadow:0 0 20px rgba(255,255,255,.25); margin:0 auto; display:block;">
+        <img src="./dress.png" alt="Código de vestimenta" style="width:100%; max-width:400px; border-radius:12px; box-shadow:0 0 20px rgba(255,255,255,.25); margin:0 auto; display:block;">
 
         <hr class="section-divider">
 
@@ -739,7 +828,10 @@ function createStars() {
 function abrirInvitacion() {
   const intro = document.getElementById('introScreen');
   const main = document.getElementById('mainContent');
+  const musica = document.getElementById('musica');
 
+  musica.play().catch(()=>{});
+  
   intro.classList.add('open');
 
   setTimeout(() => {
@@ -751,6 +843,47 @@ function abrirInvitacion() {
 window.addEventListener("DOMContentLoaded",createStars);
 window.addEventListener("resize",createStars);
 
+
+
+function iniciarCuentaRegresiva(){
+
+  const fechaEvento = new Date("April 25, 2026 19:00:00").getTime();
+
+  setInterval(function(){
+
+    const ahora = new Date().getTime();
+    const diferencia = fechaEvento - ahora;
+
+    const dias = Math.floor(diferencia / (1000*60*60*24));
+    const horas = Math.floor((diferencia % (1000*60*60*24)) / (1000*60*60));
+    const minutos = Math.floor((diferencia % (1000*60*60)) / (1000*60));
+    const segundos = Math.floor((diferencia % (1000*60)) / 1000);
+
+    document.getElementById("dias").innerText = dias;
+    document.getElementById("horas").innerText = horas;
+    document.getElementById("minutos").innerText = minutos;
+    document.getElementById("segundos").innerText = segundos;
+
+  },1000);
+
+}
+
+window.addEventListener("DOMContentLoaded", iniciarCuentaRegresiva);
+
+const boton = document.getElementById("music-btn");
+const musica = document.getElementById("musica");
+
+boton.addEventListener("click", () => {
+
+  if(musica.paused){
+    musica.play();
+    boton.innerText = "🔊 Música";
+  }else{
+    musica.pause();
+    boton.innerText = "🔇 Música";
+  }
+
+});
 
     window.addEventListener('DOMContentLoaded', () => {
       createStars();
@@ -764,5 +897,4 @@ window.addEventListener("resize",createStars);
     });
   </script>
 </body>
-
 </html>
